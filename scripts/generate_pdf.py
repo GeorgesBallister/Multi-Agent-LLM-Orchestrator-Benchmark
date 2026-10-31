@@ -5,7 +5,7 @@ import subprocess
 import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-HTML_PATH = os.path.join(BASE_DIR, "report", "report-template-v2.html")
+HTML_PATH = os.path.join(BASE_DIR, "report", "report-template-v3.html")
 PDF_PATH = os.path.join(BASE_DIR, "report", "Relatorio-Estrategico-Orquestracao-Multi-Agente-IA.pdf")
 
 CHROME_PATHS = [
