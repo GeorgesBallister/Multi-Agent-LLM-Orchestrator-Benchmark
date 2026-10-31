@@ -34,28 +34,28 @@ This repository establishes the **canonical production blueprint** to eliminate 
 Sending every query to a frontier reasoning model (Opus) is economically unsustainable. The optimal strategy navigates the **Pareto Optimal Frontier**: Gemini Flash for mass ingestion &rarr; Codex Sol for bulk testing/migrations &rarr; Sonnet 5.5 for core engineering &rarr; Opus 5.5 for architectural release gates.
 
 <p align="center">
-  <img src="assets/img/scatter_pareto_llm.png" alt="Pareto Frontier Scatter Plot" width="850">
+  <img src="assets/img/fig1_pareto_scatter_benchmark.png" alt="Pareto Frontier Scatter Plot" width="850">
 </p>
 
 ### 2. Forensic Analysis of the Quota Collapse
 The chart below illustrates the exact telemetry data from the real-world case study. Between 08:00 and 12:00, 24 subagents were spawned concurrently without session compaction (`/compact`), causing context re-reads to surge by 155 million tokens and locking out the 5-hour quota.
 
 <p align="center">
-  <img src="assets/img/forensic_telemetry_georges.png" alt="Forensic Telemetry Timeline" width="850">
+  <img src="assets/img/fig2_forensic_telemetry_timeline.png" alt="Forensic Telemetry Timeline" width="850">
 </p>
 
 ### 3. Workload Re-Allocation: Broken Monoculture vs Balanced Pipeline
 Shifting from a 62% Opus monoculture to a balanced multi-agent pipeline: deterministic tasks to local scripts, bulk implementation to Codex, and core architecture to Sonnet.
 
 <p align="center">
-  <img src="assets/img/allocation_comparison.png" alt="Workload Allocation Comparison" width="850">
+  <img src="assets/img/fig3_workload_rebalancing_dossier.png" alt="Workload Allocation Comparison" width="850">
 </p>
 
 ### 4. Specialization Radar: Claude vs Codex vs Antigravity
 Each platform exhibits distinct architectural strengths: Claude leads in clean reasoning and terminal proficiency; Codex dominates in quota economy and parallel Git Worktrees; Antigravity leads in 1M+ context ingestion and browser-in-the-loop inspection.
 
 <p align="center">
-  <img src="assets/img/radar_capabilities.png" alt="Radar Capabilities Chart" width="650">
+  <img src="assets/img/fig4_radar_model_competence.png" alt="Radar Capabilities Chart" width="850">
 </p>
 
 ---
@@ -124,10 +124,10 @@ agy "Recursively parse Repositorio-Assets-LAY/, verify .PNG files, and generate 
 ## 🛠️ Reproduction & PDF Build
 
 ```powershell
-# 1. Generate the analytical charts
-python scripts/generate_charts.py
+# 1. Generate the Pandas/Seaborn analytical visual dossier
+python scripts/build_visual_dossier.py
 
-# 2. Compile the high-resolution editorial PDF (requires Chrome or Edge)
+# 2. Compile the high-resolution zero-margin editorial PDF (requires Chrome or Edge)
 python scripts/generate_pdf.py
 ```
 
