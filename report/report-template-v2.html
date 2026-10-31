@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Evidências Reposicionam a Orquestração Multiagente — Publicação Técnica LAY</title>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 10mm 12mm 12mm 12mm;
+      @bottom-right {
+        content: counter(page);
+        font-family: 'JetBrains Mono', 'Courier New', monospace;
+        font-size: 8pt;
+        font-weight: bold;
+        color: #888888;
+      }
+      @bottom-left {
+        content: "LAY® RESEARCH · ORQUESTRAÇÃO MULTIAGENTE BASEADA EM EVIDÊNCIAS · 31 OUT. 2026";
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 7.5pt;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        color: #888888;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #FAF5E9;
+      color: #0E0E0E;
+      line-height: 1.42;
+      font-size: 9pt;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Page Breaks */
+    .page {
+      page-break-after: always;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+    .page:last-child {
+      page-break-after: auto;
+    }
+
+    /* Typography & Hierarchy */
+    h1, h2, h3, h4 {
+      margin: 0;
+      font-weight: 900;
+      letter-spacing: -0.3px;
+      color: #000000;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 18pt;
+      line-height: 1.1;
+      border-bottom: 3px solid #000000;
+      padding-bottom: 5px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    h1 .chapter-num {
+      color: #E31B23;
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 15pt;
+    }
+
+    h2 {
+      font-size: 11pt;
+      margin-top: 10px;
+      margin-bottom: 6px;
+      color: #000000;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    h2::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #E31B23;
+    }
+
+    p {
+      margin: 0 0 8px 0;
+      text-align: justify;
+    }
+
+    /* Grids & Spreads */
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .grid-3col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* Cover Styling */
+    .cover {
+      background-color: #000000;
+      color: #FAF5E9;
+      height: 185mm;
+      padding: 20mm 18mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-left: 10mm solid #E31B23;
+    }
+
+    .cover-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid #333333;
+      padding-bottom: 12px;
+    }
+
+    .cover-brand {
+      font-size: 12pt;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #FFF201;
+    }
+
+    .cover-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9pt;
+      color: #00FFFF;
+    }
+
+    .cover-middle {
+      margin: 15mm 0;
+    }
+
+    .cover-tag {
+      background: #E31B23;
+      color: #FFFFFF;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9pt;
+      font-weight: bold;
+      padding: 4px 10px;
+      display: inline-block;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+
+    .cover-title {
+      font-size: 32pt;
+      font-weight: 900;
+      line-height: 1.05;
+      color: #FFFFFF;
+      margin-bottom: 15px;
+      letter-spacing: -1px;
+    }
+
+    .cover-subtitle {
+      font-size: 13pt;
+      color: #FAF5E9;
+      max-width: 820px;
+      line-height: 1.4;
+      font-weight: 400;
+    }
+
+    .cover-stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      background: #111111;
+      padding: 12px;
+      border: 1px solid #333333;
+    }
+
+    .cover-stat-item {
+      text-align: left;
+      border-left: 3px solid #FFF201;
+      padding-left: 8px;
+    }
+
+    .cover-stat-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16pt;
+      font-weight: 900;
+      color: #FFF201;
+      line-height: 1;
+    }
+
+    .cover-stat-lbl {
+      font-size: 7.5pt;
+      color: #AAAAAA;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .cover-bottom {
+      border-top: 1px solid #333333;
+      padding-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 8pt;
+      color: #777777;
+    }
+
+    /* KPI Highlights */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .kpi-box {
+      background: #000000;
+      color: #FFFFFF;
+      padding: 8px 10px;
+      border-top: 3px solid #FFF201;
+    }
+
+    .kpi-box.red { border-top-color: #E31B23; }
+    .kpi-box.cyan { border-top-color: #00FFFF; }
+    .kpi-box.green { border-top-color: #10A37F; }
+
+    .kpi-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 15pt;
+      font-weight: 900;
+      color: #FFF201;
+      line-height: 1;
+    }
+    .kpi-box.red .kpi-num { color: #FF4D4D; }
+    .kpi-box.cyan .kpi-num { color: #00FFFF; }
+    .kpi-box.green .kpi-num { color: #4ECCA3; }
+
+    .kpi-lbl {
+      font-size: 7pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #CCCCCC;
+      margin-top: 3px;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 7.8pt;
+      margin: 6px 0 10px 0;
+      background: #FFFFFF;
+    }
+
+    th {
+      background: #000000;
+      color: #FFF201;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 5px 7px;
+      text-align: left;
+      border-bottom: 2px solid #E31B23;
+    }
+
+    td {
+      padding: 5px 7px;
+      border-bottom: 1px solid #E0DCD0;
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) td {
+      background: #F4EFE2;
+    }
+
+    /* Callout & Cards */
+    .card {
+      background: #FFFFFF;
+      border: 1px solid #DDD7C8;
+      padding: 9px 11px;
+      margin-bottom: 10px;
+      box-shadow: 2px 2px 0px rgba(0,0,0,0.06);
+    }
+
+    .card.alert {
+      border-left: 4px solid #E31B23;
+      background: #FFF8F7;
+    }
+
+    .card.warning {
+      border-left: 4px solid #FFF201;
+      background: #FFFFF0;
+    }
+
+    .card.info {
+      border-left: 4px solid #00FFFF;
+      background: #F0FDFF;
+    }
+
+    .card-title {
+      font-size: 9pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      color: #000000;
+    }
+
+    /* Images & Charts */
+    .chart-container {
+      background: #0E0E0E;
+      padding: 6px;
+      border: 1px solid #000000;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .chart-img {
+      max-width: 100%;
+      height: auto;
+      max-height: 80mm;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .chart-caption {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7pt;
+      color: #AAAAAA;
+      margin-top: 4px;
+      text-align: left;
+    }
+
+    .chart-caption strong {
+      color: #FFF201;
+    }
+
+    /* Code Blocks */
+    code, pre {
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 7.5pt;
+    }
+
+    pre {
+      background: #000000;
+      color: #00FFFF;
+      padding: 7px 10px;
+      margin: 5px 0 8px 0;
+      overflow-x: hidden;
+      white-space: pre-wrap;
+      line-height: 1.35;
+      border-left: 3px solid #E31B23;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 6.5pt;
+      font-weight: 800;
+      padding: 1px 5px;
+      text-transform: uppercase;
+      background: #000000;
+      color: #FFFFFF;
+      margin-right: 3px;
+    }
+    .tag.red { background: #E31B23; }
+    .tag.yellow { background: #FFF201; color: #000000; }
+    .tag.green { background: #10A37F; }
+    .tag.cyan { background: #00BCE4; color: #000000; }
+
+    ul, ol {
+      margin: 0 0 8px 16px;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== PÁGINA 1: CAPA EDITORIAL LAY ==================== -->
+  <div class="page cover">
+    <div class="cover-top">
+      <div class="cover-brand">LOUD, ANGRY & YOUNG® · ENGINEERING LAB</div>
+      <div class="cover-date">DOCUMENTO TÉCNICO · 31 OUT. 2026</div>
+    </div>
+
+    <div class="cover-middle">
+      <div class="cover-tag">DOSSIÊ ESTRATÉGICO DE ENGENHARIA MULTIAGENTE</div>
+      <div class="cover-title">ORQUESTRAÇÃO BASEADA EM EVIDÊNCIAS</div>
+      <div class="cover-subtitle">
+        Análise forense da telemetria de 2.060 chamadas, fronteira de Pareto de LLMs (SWE-bench / FrontierCode 2.0) e arquitetura de execução sem IDE entre <strong>Claude (Opus/Sonnet)</strong>, <strong>OpenAI Codex (Sol/Astra)</strong> e <strong>Google Antigravity (Gemini 3.8 Flash)</strong> sob teto fixo de US$ 58/mês.
+      </div>
+    </div>
+
+    <div>
+      <div class="cover-stats-bar">
+        <div class="cover-stat-item">
+          <div class="cover-stat-val">645.3M</div>
+          <div class="cover-stat-lbl">Tokens Cache Reenviados (Claude)</div>
+        </div>
+        <div class="cover-stat-item">
+          <div class="cover-stat-val">33</div>
+          <div class="cover-stat-lbl">Subagentes Disparados em Loop</div>
+        </div>
+        <div class="cover-stat-item">
+          <div class="cover-stat-val">4.2×</div>
+          <div class="cover-stat-lbl">Vantagem de Eficiência do Codex</div>
+        </div>
+        <div class="cover-stat-item">
+          <div class="cover-stat-val">US$ 58</div>
+          <div class="cover-stat-lbl">Custo Fixo Mensal Consolidado</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-bottom">
+      <div><strong>Estudo de Caso & Engenharia:</strong> Georges Ballister · Hardware: AMD Ryzen 9 9900X (12C/24T) + RTX 5070 Ti 16GB + 32GB DDR5</div>
+      <div><strong>Repositório Público:</strong> github.com/GeorgesBallister/Multi-Agent-LLM-Orchestrator-Benchmark</div>
+    </div>
+  </div>
+
+  <!-- ==================== PÁGINA 2: SUMÁRIO EXECUTIVO & ANÁLISE FORENSE ==================== -->
+  <div class="page">
+    <h1>
+      <span>01. Sumário Executivo & Diagnóstico Forense da Telemetria</span>
+      <span class="chapter-num">01 / 06</span>
+    </h1>
+
+    <div class="kpi-row">
+      <div class="kpi-box red">
+        <div class="kpi-num">2.060</div>
+        <div class="kpi-lbl">Chamadas Totais no Claude Code</div>
+      </div>
+      <div class="kpi-box red">
+        <div class="kpi-num">313.283</div>
+        <div class="kpi-lbl">Média Tokens Cache / Chamada</div>
+      </div>
+      <div class="kpi-box">
+        <div class="kpi-num">61,8%</div>
+        <div class="kpi-lbl">Monocultura de Opus 5.5</div>
+      </div>
+      <div class="kpi-box yellow">
+        <div class="kpi-num">ZERO</div>
+        <div class="kpi-lbl">Compactações na Janela Crítica</div>
+      </div>
+    </div>
+
+    <div class="grid-2col">
+      <div>
+        <h2>O Que Aconteceu no Projeto do Georges?</h2>
+        <p>
+          O esgotamento súbito do limite do Claude em menos de 20 minutos de uso contínuo foi minuciosamente investigado a partir dos dados gravados em <code>telemetria-ia-historico.csv</code> e <code>telemetria-ia-por-hora.csv</code>. Os registros desmentem qualquer anomalia de rede ou instabilidade aleatória da API: <strong>o colapso foi provocado por um ciclo de reenvio exponencial de contexto acumulado sem compactação</strong>.
+        </p>
+
+        <div class="card alert">
+          <div class="card-title">Os 4 Erros Críticos Mapeados na Telemetria</div>
+          <ul style="font-size: 7.5pt; margin-bottom: 0;">
+            <li><strong>1. Monocultura do Modelo Mais Caro (Opus 5.5):</strong> 1.273 chamadas das 2.060 totais (61,8%) rodaram no Opus 5.5, que consumiu 83,0% de todo o cache lido (535,5 milhões de tokens). O Opus esgota a cota rolante de 5 horas 4x mais rápido que o Sonnet.</li>
+            <li><strong>2. Explosão de Subagentes em Segundo Plano:</strong> Entre 08:18 e 12:57 do dia 31/10, o ambiente saltou de 11 para <strong>33 subagentes ativos (24 criados em 4 horas)</strong>. Cada subagente clonou o contexto e disparou requisições concorrentes.</li>
+            <li><strong>3. Inanição Absoluta de Compactações:</strong> Durante a rajada de 986 chamadas no dia 31, o contador de compactações estagnou em <strong>5</strong>. Logs brutos de terminal e leituras de arquivos continuaram sendo reenviados integralmente a cada tool call.</li>
+            <li><strong>4. Trabalho Braçal Despejado no Modelo Errado:</strong> O Claude foi encarregado de varreduras de arquivos, validação de links e listagens mecânicas — tarefas que deveriam ser resolvidas por scripts Python determinísticos ou pelo Gemini Flash via CLI <code>agy</code>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="chart-container">
+          <img class="chart-img" src="../assets/img/forensic_telemetry_georges.png" alt="Telemetria Forense do Projeto do Georges">
+          <div class="chart-caption">
+            <strong>Figura 1:</strong> Linha do tempo real extraída do projeto <em>Nossa Cultura</em> (30/10 a 31/10/2026). Destaque em vermelho marca a Zona do Colapso: explosão de 24 subagentes e +155M tokens reenviados em 4 horas sem compactação.
+          </div>
+        </div>
+
+        <div class="card info">
+          <div class="card-title">A Regra Oficial de Cache da Anthropic</div>
+          <p style="font-size: 7.5pt; margin-bottom: 0;">
+            A documentação da Anthropic estabelece que sessões com mais de 80.000 tokens sofrem penalização severa na janela de 5 horas: o limite despenca de ~45 para 10 a 15 mensagens. Retomar sessões após 1 hora ociosa força uma regravação de cache integral (<em>Cache Creation</em>), queimando a cota em minutos.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PÁGINA 3: BENCHMARKS & FRONTEIRA DE PARETO ==================== -->
+  <div class="page">
+    <h1>
+      <span>02. Fronteira de Pareto & Dossiê de Benchmarks Globais</span>
+      <span class="chapter-num">02 / 06</span>
+    </h1>
+
+    <div class="grid-2col">
+      <div>
+        <div class="chart-container">
+          <img class="chart-img" src="../assets/img/scatter_pareto_llm.png" alt="Fronteira de Pareto: Qualidade vs Custo">
+          <div class="chart-caption">
+            <strong>Figura 2:</strong> Gráfico de Dispersão com Fronteira de Pareto (LMSYS / Artificial Analysis v5.0). Eixo X em escala logarítmica. Tamanho da bolha reflete o throughput bruto em tokens/s. Linha amarela indica a combinação ideal de eficiência.
+          </div>
+        </div>
+
+        <div class="card warning">
+          <div class="card-title">Conclusão Matemática da Fronteira de Pareto</div>
+          <p style="font-size: 7.5pt; margin-bottom: 0;">
+            Nenhum modelo isolado domina todos os quadrantes. O <strong>Claude Opus 5.5</strong> atinge o pico de resolução (97%), mas custa US$ 10,04/tarefa e opera a lentos 48 tok/s. O <strong>GPT-6.1 Sol</strong> entrega 68.8% de SWE-bench a US$ 1,27 (8x mais barato). O <strong>Gemini 3.8 Flash</strong> opera a 308 tok/s com custo residual (US$ 0,15). A rota ótima interliga os pontos da fronteira: <em>Flash (Ingestão) &rarr; Sol (Testes/Massa) &rarr; Sonnet/Opus (Core/Gate)</em>.
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <h2>Métricas Oficiais Consolidadas (Cold Data)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Modelo & Família</th>
+              <th>FrontierCode 2.0 (AA)</th>
+              <th>SWE-bench Verified</th>
+              <th>Terminal-Bench (Harbor)</th>
+              <th>Throughput</th>
+              <th>Custo Bateria (AA)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="tag red">Claude</span> <strong>Opus 5.5 (Max)</strong></td>
+              <td><strong>46%</strong> (#1)</td>
+              <td><strong>97.0%</strong> (#1)</td>
+              <td>59%</td>
+              <td>48 tok/s</td>
+              <td>US$ 10,04</td>
+            </tr>
+            <tr>
+              <td><span class="tag red">Claude</span> <strong>Sonnet 5.5</strong></td>
+              <td>42%</td>
+              <td>94.2% (#2)</td>
+              <td><strong>70.6%</strong> (#1)</td>
+              <td>92 tok/s</td>
+              <td>US$ 3,80</td>
+            </tr>
+            <tr>
+              <td><span class="tag green">OpenAI</span> <strong>GPT-6 Astra (Max)</strong></td>
+              <td>42%</td>
+              <td>88.0%</td>
+              <td>63%</td>
+              <td>85 tok/s</td>
+              <td>US$ 6,24</td>
+            </tr>
+            <tr>
+              <td><span class="tag green">OpenAI</span> <strong>GPT-6.1 Sol (Terra)</strong></td>
+              <td>42%</td>
+              <td>68.8%</td>
+              <td>58%</td>
+              <td>145 tok/s</td>
+              <td><strong>US$ 1,27</strong></td>
+            </tr>
+            <tr>
+              <td><span class="tag green">OpenAI</span> <strong>GPT-6 Luna</strong></td>
+              <td>35%</td>
+              <td>58.0%</td>
+              <td>48%</td>
+              <td>240 tok/s</td>
+              <td>US$ 0,20</td>
+            </tr>
+            <tr>
+              <td><span class="tag cyan">Google</span> <strong>Gemini 3.8 Flash</strong></td>
+              <td>36%</td>
+              <td>61.2%</td>
+              <td>49%</td>
+              <td><strong>308 tok/s</strong> (#1)</td>
+              <td><strong>US$ 0,15</strong></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Rigor Metodológico: O Que o Dado Permite Dizer?</h2>
+        <ul style="font-size: 7.5pt;">
+          <li><strong>FrontierCode 2.0:</strong> A diferença entre Opus 5.5 (46%) e Sonnet 5.5 / Sol / Astra (42%) é de apenas 4 pontos percentuais. Isso não justifica pagar 8x mais em tarefas cotidianas de código.</li>
+          <li><strong>Terminal-Bench 4.0:</strong> Sonnet 5.5 lidera com 70.6% de sucesso em execução pura de SO/Bash contra 58% do Codex, cometendo significativamente menos erros em scripts de terminal.</li>
+          <li><strong>Consumo de Tokens:</strong> Estudos da Vals.ai e Composio comprovam que o Codex gasta <strong>3.2x a 4.2x menos tokens</strong> para produzir a mesma suíte de testes unitários que o Claude.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PÁGINA 4: O TRIÂNGULO DE COTAS & A ARQUITETURA DE 5 TIERS ==================== -->
+  <div class="page">
+    <h1>
+      <span>03. O Triângulo de US$ 58/Mês & A Matriz em 5 Tiers</span>
+      <span class="chapter-num">03 / 06</span>
+    </h1>
+
+    <div class="grid-2col">
+      <div>
+        <h2>O Triângulo de Assinaturas de Custo Fixo</h2>
+        <p>
+          O desenvolvedor solo não precisa pagar centenas de dólares por chamadas de API avulsas. Três planos de consumo cobrem 100% da demanda sob governança rígida:
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Plano Fixo</th>
+              <th>Custo Oficial</th>
+              <th>Modelo Alocado</th>
+              <th>Papel Inegociável no Pipeline</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Claude Pro</strong></td>
+              <td>US$ 20,00/mês</td>
+              <td>Sonnet 5.5 / Opus 5.5</td>
+              <td><strong>O Cérebro / CTO:</strong> Arquitetura, contratos, lógica core React/Three.js e revisão de risco.</td>
+            </tr>
+            <tr>
+              <td><strong>ChatGPT Plus</strong></td>
+              <td>US$ 20,00/mês</td>
+              <td>GPT-6.1 Sol / Luna</td>
+              <td><strong>O Trator Braçal:</strong> Testes em massa, mocks, seeders, tipagem e migrations. 4x menos tokens.</td>
+            </tr>
+            <tr>
+              <td><strong>Google AI Pro</strong></td>
+              <td>R$ 99 (~US$ 18)</td>
+              <td>Gemini 3.8 Flash</td>
+              <td><strong>O Olho & Digestor:</strong> Ingestão massiva de pastas (1M+ tok), multimodalidade e visual web.</td>
+            </tr>
+            <tr style="font-weight: bold; background: #FFF201;">
+              <td>TOTAL MENSAL</td>
+              <td>~US$ 58 / ~R$ 330</td>
+              <td>Top 4 Global</td>
+              <td>Operação contínua 7 dias/semana com zero estouro de cota e zero surpresas de API.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="card alert">
+          <div class="card-title">A Regra Inviolável de Isolamento do MCP</div>
+          <p style="font-size: 7.5pt; margin-bottom: 0;">
+            <strong>MCP conecta ferramentas, mas NÃO transfere cotas.</strong> Se o Claude chamar um servidor MCP que roda chaves de API externas, a cobrança cai na fatura por token da OpenAI/Google. O roteamento multiagente sustentável deve ocorrer por <em>CLIs headless autenticados via OAuth</em> (login web do plano Pro/Plus) ou no nível de processos locais.
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <h2>A Matriz Estratégica em 5 Tiers Operacionais</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Tier / Nível</th>
+              <th>Executor Designado</th>
+              <th>Custo Cota</th>
+              <th>Escopo de Trabalho Permitido</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="tag red">Tier 1</span> <strong>Decisão & Shaders</strong></td>
+              <td>Claude Opus 5.5 (Turno Único)</td>
+              <td>Crítico</td>
+              <td>Aprovação de gates de release, contratos de tipagem globais, matemática de shaders Three.js. Proibido em loop de REPL.</td>
+            </tr>
+            <tr>
+              <td><span class="tag red">Tier 2</span> <strong>Engenharia Core</strong></td>
+              <td>Claude Sonnet 5.5 (Claude Code)</td>
+              <td>Médio</td>
+              <td>Componentes React 19, scrollytelling GSAP, resolução de bugs complexos. Compactação obrigatória a cada 30 tool calls.</td>
+            </tr>
+            <tr>
+              <td><span class="tag green">Tier 3</span> <strong>Trabalho em Massa</strong></td>
+              <td>Codex CLI (`codex exec`)</td>
+              <td>Baixo</td>
+              <td>Suítes de testes Vitest/Playwright, mocks, fixtures, seeders SQL, tipagens mecânicas. Despachado em Git Worktrees.</td>
+            </tr>
+            <tr>
+              <td><span class="tag cyan">Tier 4</span> <strong>Contexto & Dados</strong></td>
+              <td>Gemini 3.8 Flash (`agy`)</td>
+              <td>Mínimo</td>
+              <td>Varredura de milhares de arquivos, extração de áudio/vídeo, regex pesado. Gera resumo JSON de 2k tokens para o Sonnet.</td>
+            </tr>
+            <tr>
+              <td><span class="tag yellow">Tier 5</span> <strong>Inspeção & GPU</strong></td>
+              <td>Chromium + RTX 5070 Ti</td>
+              <td>Zero</td>
+              <td>Browser-in-the-loop (validação visual DOM 375px/1920px), recortes pixel-perfect com SAM 2/rembg e automação Blender 3D.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="chart-container" style="margin-top: 6px;">
+          <img class="chart-img" style="max-height: 48mm;" src="../assets/img/allocation_comparison.png" alt="Comparativo de Alocação de Trabalho">
+          <div class="chart-caption">
+            <strong>Figura 3:</strong> Comparativo entre a alocação que travou o projeto do Georges (monocultura Opus 62%) e o mix balanceado de alta performance com custo fixo.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PÁGINA 5: HARNESSES SEM IDE & RADAR DE CAPACIDADES ==================== -->
+  <div class="page">
+    <h1>
+      <span>04. Análise de Harnesses Desktop & Workflow Sem IDE</span>
+      <span class="chapter-num">04 / 06</span>
+    </h1>
+
+    <div class="grid-2col">
+      <div>
+        <div class="chart-container">
+          <img class="chart-img" style="max-height: 75mm;" src="../assets/img/radar_capabilities.png" alt="Radar de Capacidades">
+          <div class="chart-caption">
+            <strong>Figura 4:</strong> Gráfico Radar de Especialização Técnica: Claude domina em arquitetura limpa; Codex lidera em economia de cota e Git Worktrees paralelas; Antigravity vence em contexto massivo e browser visual integrado.
+          </div>
+        </div>
+
+        <div class="card warning">
+          <div class="card-title">A Escolha do Harness Desktop para o Georges</div>
+          <p style="font-size: 7.5pt; margin-bottom: 0;">
+            Como o Georges não digita código em IDE e opera como arquiteto/diretor:
+            <br>• <strong>Tela Principal de Concepção:</strong> Claude Desktop (Aba Code) com Sonnet 5.5 travado como padrão.
+            <br>• <strong>Tela de Fila Paralela:</strong> Codex Desktop App para disparar tarefas concorrentes em Git Worktrees visuais com 1 clique e aprovação humana rápida.
+            <br>• <strong>Tela de Auditoria Visual:</strong> Antigravity Desktop para navegar pela aplicação com o Chromium embutido.
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <h2>Comparativo dos 3 Aplicativos Nativos no Windows</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Critério Operacional</th>
+              <th>Claude Desktop (Aba Code)</th>
+              <th>OpenAI Codex Desktop App</th>
+              <th>Google Antigravity 2.0</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Paradigma da Interface</strong></td>
+              <td>Chat conversacional + terminal Code integrado</td>
+              <td><strong>Mission Control</strong> de threads paralelas</td>
+              <td>Parallel Agent Manager + Canvas visual</td>
+            </tr>
+            <tr>
+              <td><strong>Isolamento Git Worktrees</strong></td>
+              <td>Exige comando manual no terminal</td>
+              <td><strong>100% Nativo na UI</strong> (1 clique por branch)</td>
+              <td>Nativo via Agent Manager</td>
+            </tr>
+            <tr>
+              <td><strong>Truncamento de Saída</strong></td>
+              <td><strong>Zero truncamento</strong> (lê 100% dos logs)</td>
+              <td>Trunca saídas acima de 10k tokens</td>
+              <td>Preserva arquivos, mas perde foco em refactors</td>
+            </tr>
+            <tr>
+              <td><strong>Visão / Browser Integrado</strong></td>
+              <td>Apenas manual no modo Cowork</td>
+              <td>Navegador de inspeção com anotações</td>
+              <td><strong>Chromium Totalmente Automatizado</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Risco de Cota na GUI</strong></td>
+              <td>Alto (se disparar subagentes múltiplos)</td>
+              <td><strong>Baixíssimo</strong> (cota generosa no Plus)</td>
+              <td>Médio (Flash infinito; Pro esgota rápido)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Painéis Kanban Multiagente da Comunidade (Reddit)</h2>
+        <ul style="font-size: 7.5pt;">
+          <li><strong>Nimbalyst (Open-Source MIT):</strong> Painel estilo Kanban visual construído para rodar Claude Code e Codex lado a lado na mesma janela, instanciando Git Worktrees automaticamente em segundo plano.</li>
+          <li><strong>Superset:</strong> Interface ultra-leve em Rust/Tauri com barra lateral para múltiplos agentes simultâneos e medidor visual de consumo de cota em tempo real para Anthropic e OpenAI.</li>
+        </ul>
+
+        <div class="card alert">
+          <div class="card-title">O Modo de Falha de Cada Aplicativo</div>
+          <p style="font-size: 7.5pt; margin-bottom: 0;">
+            • <strong>No Claude:</strong> Deixar sessões abertas sem compactar derruba a cota em 20 min.<br>
+            • <strong>No Codex:</strong> Ler arquivos gigantes sem delimitação provoca truncamento silencioso.<br>
+            • <strong>No Antigravity:</strong> Refatorar mais de 10 arquivos core simultâneos quebra imports.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PÁGINA 6: PROTOCOLO DE PRODUÇÃO & BIBLIOGRAFIA ==================== -->
+  <div class="page">
+    <h1>
+      <span>05. Comandos Headless, Protocolo Diário & Fontes</span>
+      <span class="chapter-num">05 / 06</span>
+    </h1>
+
+    <div class="grid-2col">
+      <div>
+        <h2>Sintaxe dos Comandos Headless por CLI</h2>
+        <pre>
+# 1. Claude Code CLI: Arquitetura Core sem abrir chat
+claude -p "Refatore o shader WaterSurface.ts. Retorne apenas diff." `
+  --dangerously-skip-permissions --output-format json
+
+# 2. Codex CLI: Testes em massa com aprovação automática
+codex exec --cd ./src/components/Water --ask-for-approval never `
+  "Gere suíte Vitest completa para WaterSurface.ts até 100% verde."
+
+# 3. Antigravity CLI: Varredura de milhares de arquivos
+agy "Varra a pasta Repositorio-Assets-LAY/ e gere docs/inventario.json"</pre>
+
+        <h2>Rotina de Execução Diária Anti-Crash</h2>
+        <ol style="font-size: 7.5pt;">
+          <li><strong>Tarefa Primeiro:</strong> Fixe objetivo, arquivos permitidos e teste de aceite antes de abrir o modelo.</li>
+          <li><strong>Trabalho Determinístico Fora do LLM:</strong> Use scripts Python/Bash locais para hash, resize, recorte de imagem (rembg/SAM 2) e conversão de formatos. Gasto zero de cota.</li>
+          <li><strong>Claude com Contexto Enxuto:</strong> Use Sonnet 5.5 como padrão; feche a tarefa com <code>/clear</code>; em sessões com mais de 30 tool calls, rode <code>/compact</code> imediatamente.</li>
+          <li><strong>Despacho Isolado no Codex:</strong> Encaminhe suítes de testes e mocks para o <code>codex exec</code> em Git Worktree separada.</li>
+          <li><strong>Auditoria Visual no Antigravity:</strong> Suba o servidor e deixe o Chromium inspecionar os elementos visuais.</li>
+          <li><strong>Gate Humano:</strong> O Georges clica em "Approve" com diff revisado.</li>
+        </ol>
+      </div>
+
+      <div>
+        <h2>Bibliografia Anotada & Fontes Oficiais</h2>
+        <ul style="font-size: 7pt; margin-bottom: 0;">
+          <li><strong>Anthropic:</strong> <a href="https://support.claude.com/en/articles/14552983-models-usage-and-limits-in-claude-code">Models, usage, and limits in Claude Code</a> & <a href="https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work">Usage limits in Pro/Max plans</a>. Janela de 5 horas e regras de cache.</li>
+          <li><strong>OpenAI:</strong> <a href="https://openai.com/index/introducing-the-codex-app/">Introducing the Codex app</a> & <a href="https://learn.chatgpt.com/docs/pricing">Codex Pricing & Usage</a>. Filas de worktrees e cotas ChatGPT Plus.</li>
+          <li><strong>Google:</strong> <a href="https://antigravity.google/product/antigravity-2/">Antigravity 2.0 Parallel Agent Manager</a> & <a href="https://support.google.com/googleone/answer/14534406">Google One AI Pro</a>. Automação de browser e limites.</li>
+          <li><strong>SWE-bench:</strong> <a href="https://www.swebench.com/">Official SWE-bench Leaderboard</a> (Princeton University / Scale AI). Avaliação de resolução real de bugs em repositórios.</li>
+          <li><strong>Artificial Analysis:</strong> <a href="https://artificialanalysis.ai/leaderboards/models">LLM Leaderboards v5.0</a>. Métricas de FrontierCode 2.0, Terminal-Bench-Science e custo por tarefa.</li>
+          <li><strong>Terminal-Bench 4.0:</strong> <a href="https://github.com/laude-institute/terminal-bench">Harbor Terminal-Bench</a>. Execução estrita de comandos de SO em 66 tarefas controladas.</li>
+          <li><strong>LLM-Stats:</strong> <a href="https://llm-stats.com/leaderboards/llm-leaderboard">LLM Leaderboard</a>. Rankings estatísticos de raciocínio e function calling.</li>
+          <li><strong>OpenRouter:</strong> <a href="https://openrouter.ai/rankings">Public Marketplace Rankings</a>. Distribuição de volume de tokens em produção no mundo real.</li>
+          <li><strong>Comunidade Reddit:</strong> Tópicos em <a href="https://www.reddit.com/r/ClaudeAI/">r/ClaudeAI</a> e <a href="https://www.reddit.com/r/codex/">r/codex</a> sobre esgotamento de cotas de US$ 20 e testes de 1 milhão de tokens.</li>
+          <li><strong>Telemetria Local Auditada:</strong> <code>telemetria-ia-historico.csv</code> e <code>telemetria-ia-ultima.json</code> do projeto <em>Nossa Cultura</em> (31 out. 2026).</li>
+        </ul>
+
+        <div style="margin-top: 10px; border-top: 1px solid #333333; padding-top: 6px; font-size: 7pt; color: #555555; font-family: 'JetBrains Mono', monospace;">
+          COMPILADO AUTOMATICAMENTE VIA GOOGLE ANTIGRAVITY ENGINE · LAY® PROTOCOL 2026
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
