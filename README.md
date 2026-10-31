@@ -58,6 +58,32 @@ Each platform exhibits distinct architectural strengths: Claude leads in clean r
   <img src="assets/img/fig4_radar_model_competence.png" alt="Radar Capabilities Chart" width="850">
 </p>
 
+### 5. Multi-Agent Governance: Command Chain, Git Worktrees & Release Gates
+The orchestration architecture establishes a strict hierarchy: the Creative Director defines the product backlog, Google Antigravity acts as the central runtime/maestro, Claude and Codex operate on isolated Git Worktrees, and Claude Opus serves as the single-turn approval gate before the final merge.
+
+<p align="center">
+  <img src="assets/img/fig5_pipeline_orchestration_flow.png" alt="Governance and Orchestration Flowchart" width="850">
+</p>
+
+---
+
+## 📚 Technical Whitepaper Directory
+
+The complete technical report and research notes are structured in full detail:
+
+| Document | Title & Focus | Scope |
+| :--- | :--- | :--- |
+| **[`00-transcricao-integral`](./whitepaper/00-transcricao-integral-conversa-argon.md)** | Transcrição Integral da Conversa com Gemini (Argon) | Base histórica de direcionamento |
+| **[`01-exec-summary`](./whitepaper/01-exec-summary-cost-architecture.md)** | Sumário Executivo & Arquitetura Econômica ($58/mês) | Diagnóstico da quebra em 20 min |
+| **[`02-benchmarks`](./whitepaper/02-benchmarks-and-rankings.md)** | Benchmarks Globais & Números Comprovados (Cold Data) | SWE-bench, Terminal-Bench 4.0 |
+| **[`03-tiered-matrix`](./whitepaper/03-tiered-delegation-matrix.md)** | Matriz de Delegação Estratégica em 5 Níveis | SLAs e budgets por complexidade |
+| **[`04-harnesses`](./whitepaper/04-harness-and-desktop-apps.md)** | Análise Comparativa de Harnesses Desktop no Windows | Claude Desktop vs Codex vs AGY |
+| **[`05-production-cli`](./whitepaper/05-production-protocols-and-cli.md)** | Protocolos de Produção & Comandos Headless por CLI | Scripts PowerShell e rotina diária |
+| **[`06-reddit-reports`](./whitepaper/06-reddit-field-reports-failure-modes.md)** | Relatos da Comunidade do Reddit & Modos de Falha | Casos reais de r/ClaudeAI e r/codex |
+| **[`07-skills-prompts`](./whitepaper/07-engenharia-de-skills-e-prompts.md)** | Engenharia de Prompts & Anatomia de Skills LAY® | Estrutura modular, ciclo e fail-safe |
+| **[`08-governanca`](./whitepaper/08-governanca-hierarquia-orquestracao.md)** | Governança, Cadeia de Comando & Worktrees na Prática | Quem manda em quem e circuit breakers |
+| **[`04-sintese-arquitetural`](./research_notes/Orquestração%20multiagente%20com%20evidências/04_sintese_arquitetural_pipeline_completa.md)** | Síntese Integral de Evidências & Blueprint | Registro de pesquisa e conformidade |
+
 ---
 
 ## 📑 Consolidated Benchmark Scorecard
